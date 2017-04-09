@@ -1,8 +1,7 @@
 version: '2'
 networks:
-  lb_web:
-    external:
-      name: bridge
+  front:
+    driver: bridge
   back:
     driver: bridge
 services:
@@ -19,8 +18,8 @@ services:
     ports:
       - "127.0.0.1:8080:80"
     networks:
+    - front
     - back
-    - lb_web
   app:
     image: nextcloud:11-fpm
     links:

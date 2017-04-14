@@ -25,9 +25,9 @@ services:
     links:
       - db
     volumes:
-      - ./data/apps:/var/www/html/apps
-      - ./data/config:/var/www/html/config
-      - ./data/data:/var/www/html/data
+      - ./html:/var/www/html
+      - ./config:/var/www/html/config
+      - ./data:/var/www/html/data
     networks:
     - back
   db:

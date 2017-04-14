@@ -1,0 +1,38 @@
+#/bin/bash
+#dependancies:
+# rsync git docker
+#we should be ran from root folder of the nextcloud.git repo
+PATH='/bin:/usr/bin'
+IFS=' '
+our_repo="https://github.com/endsguy/nextcloud.git"
+
+#find which repo this directory belongs to
+current_repo=`grep "$our_repo" .git/config | awk -F' ' '{print $3}'`
+
+if [ "$current_repo" != "$our_repo" ]
+then
+  echo "please run ./scripts/deploy from root of nextcloud.git repo (same place as you docker-compose.yml file)"
+  exit 1
+fi
+
+#clone if empty or update
+git clone https://github.com/endsguy/server.git server || cd ./server && git pull && cd ..
+
+#update or initialize submodules?
+#redo: use the .git folder presence as the check
+#there are 3 entries in the freshly cloned 3rdpary folder
+3rd_party_count=`ls -al ./server/3rdparty | wc -l`
+if [ $3rd_party_count > 6 ]
+then
+  cd ./server && git submodule update && cd ..
+else
+  cd ./server && git submodule update --init && cd ..
+fi
+
+
+#33:65534 for all directoris
+#33:33 for those that should be editable
+sudo chmod -R o+rw ./html
+rsync -av ./server/ ./html/
+sudo chown -R 33:33 ./html/core/data/
+sudo chmod o-rw ./html

@@ -37,6 +37,7 @@ end_header
 setrwfl="../protected/setrw"
 setrw=$(cat <<end_setrw
 chmod -R o+rw $PWD/html
+chmod o+rw $PWD/config/config.php
 end_setrw
 )
 
@@ -45,6 +46,8 @@ unsetrwfl="../protected/unsetrw"
 unsetrw=$(cat <<end_unsetrw
 chmod -R o-rw $PWD/html
 chown -R 33:65534 $PWD/html
+chmod o-rw $PWD/config/config.php
+chown 33:33 $PWD/config/config.php
 end_unsetrw
 )
 

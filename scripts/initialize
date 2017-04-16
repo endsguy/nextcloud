@@ -19,11 +19,9 @@ then
   exit 1
 fi
 
-cp ./scripts/setrw ../
-cp ./scripts/unsetrw ../
+rootdir=$PWD
+su -c "cp ./scripts/setrw ../ && cp ./scripts/unsetrw ../ && chown root:root ../setrw ../unsetrw && chmod 755 ../setrw ../unsetrw" root
 cd ..
-sudo chown root:root ./setrw ./unsetrw
-sudo chmod 755 ./setrw ./unsetrw
 cur=$PWD
 user=$USERNAME
 echo "Please create following lines in your sudo file:"

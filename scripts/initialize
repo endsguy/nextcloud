@@ -1,0 +1,32 @@
+#/bin/bash
+#we would copy ./scripts/setrw and ./scripts/unsetrw out of repo and protect them and own by root allow them to be run via sudo
+#for current user
+#
+#/bin/bash
+#dependancies:
+# rsync git docker
+#we should be ran from root folder of the nextcloud.git repo
+PATH='/bin:/usr/bin'
+IFS=' '
+our_repo="https://github.com/endsguy/nextcloud.git"
+
+#find which repo this directory belongs to
+current_repo=`grep "$our_repo" .git/config | awk -F' ' '{print $3}'`
+
+if [ "$current_repo" != "$our_repo" ]
+then
+  echo "please run ./scripts/initialize from root of nextcloud.git repo (same place as you docker-compose.yml file)"
+  exit 1
+fi
+
+cp ./scripts/setrw ../
+cp ./scripts/unsetrw ../
+cd ..
+sudo chown root:root ./setrw ./unsetrw
+sudo chmod 755 ./setrw ./unsetrw
+cur=$PWD
+user=$USERNAME
+echo "Please create following lines in your sudo file:"
+echo "$user ALL=(ALL) NOPASSWD: $cur/setrw"
+echo "$user ALL=(ALL) NOPASSWD: $cur/unsetrw"
+cd nextcloud

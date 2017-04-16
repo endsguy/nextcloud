@@ -19,12 +19,38 @@ then
   exit 1
 fi
 
+
 rootdir=$PWD
-su -c "cp ./scripts/setrw ../ && cp ./scripts/unsetrw ../ && chown root:root ../setrw ../unsetrw && chmod 755 ../setrw ../unsetrw" root
+
+# header
+header=$(cat <<'end_header'
+#!/bin/bash
+end_header
+)
+
+# script 1
+setrw=$(cat <<end_setrw
+chmod -R o+rw $PWD/html
+end_setrw
+)
+
+# script 2 
+unsetrw=$(cat <<end_unsetrw
+chmod -R o-rw $PWD/html
+end_unsetrw
+)
+
+echo $header
+echo $setrw
+echo
+echo $header
+echo $unsetrw
+
+su -c "mkdir ../protected || chown root:root ../protected && chmod 755 ../protected && echo '$header' > ../protected/setrw && echo '$setrw' >> ../protected/setrw && echo '$header' > ../protected/unsetrw && echo '$unsetrw' >> ../protected/unsetrw && chown root:root ../protected/setrw ../protected/unsetrw && chmod 755 ../protected/setrw ../protected/unsetrw" root
 cd ..
 cur=$PWD
 user=$USERNAME
 echo "Please create following lines in your sudo file:"
-echo "$user ALL=(ALL) NOPASSWD: $cur/setrw"
-echo "$user ALL=(ALL) NOPASSWD: $cur/unsetrw"
+echo "$user ALL=(ALL) NOPASSWD: $cur/protected/setrw"
+echo "$user ALL=(ALL) NOPASSWD: $cur/protected/unsetrw"
 cd nextcloud

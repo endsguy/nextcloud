@@ -1,2 +1,2 @@
 #/bin/bash
-sudo chmod o-rw ./html
+sudo chmod o-rw <set_path>/html

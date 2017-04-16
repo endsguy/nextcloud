@@ -1,3 +1,3 @@
 #/bin/bash
 #for this to work this has to be outside of the repo, owned by root and allowed via sudo with full path
-sudo chmod -R o+rw ./html
+sudo chmod -R o+rw <set_path>/html

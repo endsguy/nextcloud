@@ -1,0 +1,21 @@
+#/bin/bash
+#dependancies:
+# rsync git docker
+#we should be ran from root folder of the nextcloud.git repo
+PATH='/bin:/usr/bin'
+IFS=' '
+our_repo="https://github.com/endsguy/nextcloud.git"
+
+#find which repo this directory belongs to
+current_repo=`grep "$our_repo" .git/config | awk -F' ' '{print $3}'`
+
+if [ "$current_repo" != "$our_repo" ]
+then
+  echo "please run ./scripts/cleanup from root of nextcloud.git repo (same place as you docker-compose.yml file)"
+  exit 1
+fi
+
+sudo rm -rf ./data
+sudo rm -rf ./config
+sudo rm -rf ./mysql
+sudo rm -rf ./html

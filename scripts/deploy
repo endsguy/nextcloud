@@ -21,18 +21,23 @@ git clone https://github.com/endsguy/server.git server || cd ./server && git pul
 #update or initialize submodules?
 #redo: use the .git folder presence as the check
 #there are 3 entries in the freshly cloned 3rdpary folder
-3rd_party_count=`ls -al ./server/3rdparty | wc -l`
-if [ $3rd_party_count > 6 ]
+if [ -d "./server/3rdparty" ]
+then
+  rdpartycount=`ls -al ./server/3rdparty | wc -l`
+else
+  rdpartycount=0
+fi
+
+if (( "$rdpartycount" > "6" ))
 then
   cd ./server && git submodule update && cd ..
 else
   cd ./server && git submodule update --init && cd ..
 fi
 
-
 #33:65534 for all directoris
 #33:33 for those that should be editable
 sudo chmod -R o+rw ./html
 rsync -av ./server/ ./html/
-sudo chown -R 33:33 ./html/core/data/
+#sudo chown -R 33:33 ./html/core/data/
 sudo chmod o-rw ./html

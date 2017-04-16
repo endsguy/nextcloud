@@ -15,8 +15,12 @@ then
   exit 1
 fi
 
+#remember current directory
+rootpwd=$PWD
+
 #clone if empty or update
 git clone https://github.com/endsguy/server.git server || cd ./server && git pull && cd ..
+cd $rootpwd
 
 #update or initialize submodules?
 #redo: use the .git folder presence as the check

@@ -29,14 +29,17 @@ end_header
 )
 
 # script 1
+setrwfl="../protected/setrw"
 setrw=$(cat <<end_setrw
 chmod -R o+rw $PWD/html
 end_setrw
 )
 
 # script 2 
+unsetrwfl="../protected/unsetrw"
 unsetrw=$(cat <<end_unsetrw
 chmod -R o-rw $PWD/html
+chown -R 33:65534 $PWD/html
 end_unsetrw
 )
 
@@ -46,7 +49,7 @@ echo
 echo $header
 echo $unsetrw
 
-su -c "mkdir ../protected || chown root:root ../protected && chmod 755 ../protected && echo '$header' > ../protected/setrw && echo '$setrw' >> ../protected/setrw && echo '$header' > ../protected/unsetrw && echo '$unsetrw' >> ../protected/unsetrw && chown root:root ../protected/setrw ../protected/unsetrw && chmod 755 ../protected/setrw ../protected/unsetrw" root
+su -c "mkdir ../protected || chown root:root ../protected && chmod 755 ../protected && echo '$header' > $setrwfl && echo '$setrw' >> $setrwfl && echo '$header' > $unsetrwfl && echo '$unsetrw' >> $unsetrwfl && chown root:root $setrwfl $unsetrwfl && chmod 755 $setrwfl $unsetrwfl" root
 cd ..
 cur=$PWD
 user=$USERNAME

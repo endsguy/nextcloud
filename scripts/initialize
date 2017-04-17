@@ -45,9 +45,10 @@ end_setrw
 unsetrwfl="../protected/unsetrw"
 unsetrw=$(cat <<end_unsetrw
 chmod -R o-rw $PWD/html
-chown -R 33:65534 $PWD/html
+chown -R 33:65534 $PWD/html 
 chmod o-rw $PWD/config/config.php
 chown 33:33 $PWD/config/config.php
+chown -R 33:33 $PWD/data
 end_unsetrw
 )
 

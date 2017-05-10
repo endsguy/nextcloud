@@ -43,7 +43,7 @@ fi
 #33:33 for those that should be editable
 #sudo chmod -R o+rw ./html
 sudo $PWD/../protected/setrw
-rsync -av ./server/ ./html/
+rsync -av --exclude ".git" --exclude ".git*" ./server/ ./html/
 #sudo chown -R 33:33 ./html/core/data/
 sudo $PWD/../protected/unsetrw
 #sudo chmod -R o-rw ./html

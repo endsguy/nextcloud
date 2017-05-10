@@ -20,6 +20,9 @@ rootpwd=$PWD
 
 #clone if empty or update
 git clone https://github.com/endsguy/server.git server || cd ./server && git pull && cd ..
+git clone https://github.com/endsguy/nextcloud-vk-plugin.git || cd ./nextcloud-vk-plugin && git pull && cd ..
+cd ./nextcloud-vk-plugin
+git checkout develop
 cd $rootpwd
 
 #update or initialize submodules?
@@ -44,6 +47,7 @@ fi
 #sudo chmod -R o+rw ./html
 sudo $PWD/../protected/setrw
 rsync -av --exclude ".git" --exclude ".git*" ./server/ ./html/
+rsync -av --exclude ".git" --exclude ".git*" ./nextcloud-vk-plugin/gluusso ./html/apps/
 #sudo chown -R 33:33 ./html/core/data/
 sudo $PWD/../protected/unsetrw
 #sudo chmod -R o-rw ./html
